@@ -126,3 +126,106 @@
 .fly.delay-4 { transition-delay: .20s; }
 .fly.delay-5 { transition-delay: .25s; }
 .fly.delay-6 { transition-delay: .30s; }
+
+
+
+/* Calendar CSS */
+
+@layer base {
+
+  /* Calendar Heading */
+  /* Remove background + border for previous and next buttons */
+  calendar-date::part(previous),
+  calendar-date::part(next) {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0.25rem; /* optional: make spacing cleaner */
+  }
+
+/* Remove hover/focus background too */
+  calendar-date::part(previous):hover,
+  calendar-date::part(next):hover,
+  calendar-date::part(previous):focus,
+  calendar-date::part(next):focus {
+    background: transparent !important;
+    outline: none !important;
+  }
+
+  /* (Optional) tweak header container layout slightly */
+  calendar-date::part(header) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 48px;
+    margin-top: 10px;
+  }
+
+
+  /* Calendar Table */
+  /* Make the calendar-month grid stretch to fill the container */
+  calendar-month::part(table) {
+    width: 100%;
+    table-layout: fixed; /* Ensures all day columns are equal width */
+    text-align: center;
+  }
+
+  /* Optional: make sure header cells and day cells are evenly spaced */
+  calendar-month::part(th),
+  calendar-month::part(td) {
+    width: 14.2857%; /* 100% / 7 days */
+    text-align: center;
+    padding: 0.25rem; /* small inner spacing for clean layout */
+  }
+
+  /* Ensure the entire calendar-month block fills the parent container */
+  calendar-month {
+    display: block;
+    width: 100%;
+  }
+
+
+  /* Calendar dates */
+  /* highlight today's date */
+  calendar-month::part(today) {
+    color: var(--color-accent, #2563eb); /* fallback to Tailwind blue-600 */
+    font-weight: 600;
+    border: 2px solid rgb(94, 94, 230);
+    border-radius: 9999px; /* make it a circle */
+  }
+
+  /* highlight selected date */
+  calendar-month::part(selected) {
+    background-color: rgb(94, 94, 230);
+    color: var(--color-text-on-accent, white);
+    border-radius: 9999px;
+    font-weight: 600;
+  }
+
+  /* optional hover for selected day */
+  calendar-month::part(selected):hover {
+    filter: brightness(1.1);
+  }
+
+
+  /* Calendar Event dots */
+  calendar-month::part(has-event) {
+  position: relative;
+}
+
+  calendar-month::part(has-event)::after {
+  content: "";
+  position: absolute;
+  bottom: 0.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 50%;
+  background-color: red;
+}
+
+}
+
+calendar-month::part(heading) { display: none; }
+
